@@ -1,0 +1,176 @@
+.coinList {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex: 0.7;
+  position: relative;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  width: 100%;
+  padding-left: 1em;
+  border-radius: 10px;
+  /* border: 2px solid white; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+/* .coinList::after {
+  content: "";
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  top: -10px;
+  left: 102%;
+  background-color: white;
+} */
+.coinList th {
+  text-align: left;
+}
+.coinList tr {
+  margin: 1em 0;
+}
+.coinList table {
+  font-weight: 500;
+}
+.coinList th,
+.row td {
+  font-weight: 5500;
+  font-size: 1.5em;
+  padding: 1em 0;
+}
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .tableHeader div {
+  font-weight: 700;
+  font-size: 1.3em;
+} */
+.inputAndBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  justify-content: center;
+  margin: 0.2em 1em;
+}
+.inputAndBtn > input {
+  background-color: #ccc;
+  outline: none;
+  padding: 0.2em 1em;
+  color: black;
+  font-size: 1.3em;
+  font-weight: 550;
+}
+.inputAndBtn > input:focus {
+  outline: 1px solid black;
+}
+.swap {
+  padding-top: 3em;
+  flex: 0.3;
+  width: 100%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.25);
+  align-self: stretch;
+  text-align: center;
+  border-radius: 10px;
+  /* border: 2px solid white; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.swap h1 {
+  font-weight: 900;
+  font-size: 1.5em;
+  margin: 0.5em 0;
+}
+.inputAndBtn button {
+  align-self: center;
+  padding: 0.3em 1em;
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+.inputAndBtn button:hover {
+  color: black;
+  background-color: azure;
+}
+.icon {
+  display: flex;
+  gap: 0.3em;
+}
+.row div:nth-child(2) {
+  margin-right: 7em;
+}
+.row div:nth-child(3) {
+  margin-right: 4em;
+}
+.profit {
+  color: rgba(0, 255, 0, 0.3);
+}
+.loss {
+  color: rgba(255, 0, 0, 0.5);
+}
+.crypto_icon {
+  width: auto;
+  height: auto;
+}
+
+.coinList li:nth-child(3) div:nth-child(2) {
+  margin-left: 0.8em;
+}
+.select {
+  height: 2em;
+}
+.inputAddCurrency {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+.currency {
+  font-size: 1.2em;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+.form input {
+  padding: 0.5em 1em;
+  background-color: white;
+  color: black;
+}
+.form input:focus {
+  outline: none;
+  border: 1px solid grey;
+  background-color: #cfcf;
+}
+
+.inputFields {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+.button:hover {
+  border: 2px solid white;
+  background-color: black;
+  color: white;
+}
+.form p {
+  padding: 0;
+  margin: 0;
+}
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 940px) {
+  .coinList::after {
+    left: 0;
+    top: 101%;
+    bottom: -10%;
+    width: 100%;
+    height: 2px;
+  }
+}
