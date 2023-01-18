@@ -45,55 +45,7 @@
   font-weight: 700;
   font-size: 1.3em;
 } */
-.inputAndBtn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-  justify-content: center;
-  margin: 0.2em 1em;
-}
-.inputAndBtn > input {
-  background-color: #ccc;
-  outline: none;
-  padding: 0.2em 1em;
-  color: black;
-  font-size: 1.3em;
-  font-weight: 550;
-}
-.inputAndBtn > input:focus {
-  outline: 1px solid black;
-}
-.swap {
-  padding-top: 3em;
-  flex: 0.3;
-  width: 100%;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.25);
-  align-self: stretch;
-  text-align: center;
-  border-radius: 10px;
-  /* border: 2px solid white; */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.swap h1 {
-  font-weight: 900;
-  font-size: 1.5em;
-  margin: 0.5em 0;
-}
-.inputAndBtn button {
-  align-self: center;
-  padding: 0.3em 1em;
-  transition: all 0.3s ease;
-  font-size: 1.2em;
-  font-weight: 600;
-  border-radius: 5px;
-  color: black;
-  background-color: white;
-}
-.inputAndBtn button:hover {
-  color: black;
-  background-color: azure;
-}
+
 .icon {
   display: flex;
   gap: 0.3em;
@@ -115,50 +67,6 @@
   height: auto;
 }
 
-.coinList li:nth-child(3) div:nth-child(2) {
-  margin-left: 0.8em;
-}
-.select {
-  height: 2em;
-}
-.inputAddCurrency {
-  display: flex;
-  gap: 2em;
-  align-items: center;
-}
-.currency {
-  font-size: 1.2em;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
-}
-.form input {
-  padding: 0.5em 1em;
-  background-color: white;
-  color: black;
-}
-.form input:focus {
-  outline: none;
-  border: 1px solid grey;
-  background-color: #cfcf;
-}
-
-.inputFields {
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-}
-.button:hover {
-  border: 2px solid white;
-  background-color: black;
-  color: white;
-}
-.form p {
-  padding: 0;
-  margin: 0;
-}
 .list {
   display: flex;
   justify-content: space-between;
