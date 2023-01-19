@@ -48,12 +48,17 @@
 
 .inputAddCurrency {
   display: flex;
-  gap: 2em;
+  gap: 1em;
   justify-content: center;
   align-items: center;
 }
 .currency {
   font-size: 1.2em;
+  margin-right: 1em;
+}
+.chainError {
+  font-size: 0.8em;
+  color: red;
 }
 .form {
   display: flex;

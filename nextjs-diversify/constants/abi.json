@@ -1,0 +1,292 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "bytes",
+        "name": "srcContractAddress",
+        "type": "bytes"
+      },
+      {
+        "internalType": "bytes",
+        "name": "payload",
+        "type": "bytes"
+      },
+      {
+        "internalType": "string",
+        "name": "srcChainId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint64",
+        "name": "srcChainType",
+        "type": "uint64"
+      }
+    ],
+    "name": "handleRequestFromSource",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "chainType",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "chainId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "contractAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setContractOnChain",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "chainType",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "chainId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "maxRatioX1000000",
+        "type": "uint128"
+      }
+    ],
+    "name": "setMaxRatiosX1000000",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "chainType",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "chainId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "ratioX1000000",
+        "type": "uint128"
+      }
+    ],
+    "name": "setterRatio",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "chainType",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "chainId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address payable",
+        "name": "receipientAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint64",
+        "name": "destGasPrice",
+        "type": "uint64"
+      }
+    ],
+    "name": "transferTokens",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address payable",
+        "name": "gatewayAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint64",
+        "name": "_destGasLimit",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  },
+  {
+    "inputs": [],
+    "name": "destGasLimit",
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gatewayContract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "eventIdentifier",
+        "type": "uint64"
+      },
+      {
+        "internalType": "bool[]",
+        "name": "execFlags",
+        "type": "bool[]"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "execData",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "handleCrossTalkAck",
+    "outputs": [],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "maxRatiosX1000000",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "ourContractOnChains",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "ratiosX1000000",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

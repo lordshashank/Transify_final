@@ -1,4 +1,3 @@
-import classes from "../styles/CoinData.module.css";
 import styles from "../styles/Swap.module.css";
 import { contractAddresses, abi } from "../constants";
 // dont export from moralis when using react
@@ -7,48 +6,27 @@ import { useEffect, useState } from "react";
 import { networkConfig } from "../helper.config.js";
 
 const Swap = (props) => {
-  const [inputSwaploss, setInputSwapLoss] = useState();
+  const [inputSwaploss, setInputSwapLoss] = useState("");
   const [chainId, setChainId] = useState("5");
   const [userAccount, setUserAccount] = useState();
-  const [error, setError] = useState(false);
-  const [destinationChain, setDestinationChain] = useState("5");
+  const [priceRatio, setPriceRatio] = useState();
+  const [error, setError] = useState({ error: false, msg: "" });
+  const [maximumChange, setMaximumChange] = useState("");
+  const [destinationChain, setDestinationChain] = useState();
+  const [enableSwap, setEnableSwap] = useState(false);
   const {
     Moralis,
     isWeb3Enabled,
     chainId: chainIdHex,
     account,
-    deactivateWeb3,
     user,
     deactivateWeb3,
   } = useMoralis();
-
-  const [inputSwaploss, setInputSwapLoss] = useState();
-  const [chainId, setChainId] = useState("5");
-  const [userAccount, setUserAccount] = useState();
-  // const [currentChainPrice, setCurrentChainPrice] = useState("0");
-  // const [destinationChainPrice, setDestinationChainPrice] = useState("0");
-  const [priceRatio, setPriceRatio] = useState();
-  const [error, setError] = useState(false);
-  const [destinationChain, setDestinationChain] = useState();
   useEffect(() => {
     setChainId(parseInt(chainIdHex));
     setUserAccount(account);
-
-    // async () => {
-    //   setChainId(parseInt(chainIdHex));
-
-    // };
   }, [isWeb3Enabled]);
-  console.log(isWeb3Enabled);
-  // if (isWeb3Enabled) {
-  // useEffect(() => {
-  //   const x = props.data.filter(
-  //     (e) => e.name == networkConfig[chainId]["name"]
-  //   )[0].market_data.current_price.usd;
-  // }, [isWeb3Enabled]);
-  // }
-  //
-  console.log(0);
+
   useEffect(() => {
     Moralis.onAccountChanged((account) => {
       console.log(`Account changed to ${account}`);
@@ -64,17 +42,27 @@ const Swap = (props) => {
     Moralis.onChainChanged((chainIdHex) => {
       setChainId(parseInt(chainIdHex));
     });
-  }, [Moralis]);
+  }, []);
   const contractAddress =
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
-  const swapLoss = props.swapLoss;
-  const currentChainPrice = props.data.filter(
-    (e) => e.name == networkConfig[chainId]["name"]
-  )[0].market_data.current_price.usd;
-  const destinationChainPrice = props.data.filter(
-    (e) => e.name == networkConfig[destinationChain]["name"]
-  )[0].market_data.current_price.usd;
-  const priceRatio = currentChainPrice / destinationChainPrice;
+  useEffect(() => {
+    if (props.data != [] && chainId && destinationChain) {
+      const currentChainData = props.data.filter(
+        (e) => e.name == networkConfig[chainId]["name"]
+      );
+      const destinationChainData = props.data.filter(
+        (e) => e.name == networkConfig[destinationChain]["name"]
+      );
+      if (currentChainData != [] && destinationChainData != []) {
+        const currentChainPrice =
+          currentChainData[0].market_data.current_price.usd;
+        const destinationChainPrice =
+          destinationChainData[0].market_data.current_price.usd;
+        setPriceRatio(currentChainPrice / destinationChainPrice);
+      }
+    }
+  }, [props.data, chainId, destinationChain]);
+
   const { runContractFunction: setterRatio } = useWeb3Contract({
     abi: abi,
     contractAddress: contractAddress,
@@ -85,10 +73,6 @@ const Swap = (props) => {
       ratioX1000000: (priceRatio * 1000000).toFixed(0),
     },
   });
-  console.log((priceRatio * 1000000).toFixed(0));
-  // console.log(
-  //   props.data.filter((e) => e.name == networkConfig[chainId]["name"])
-  // );
 
   const {
     runContractFunction: transferTokens,
@@ -142,6 +126,10 @@ const Swap = (props) => {
   const setCurrentIsDisabled = destinationChain ? false : true;
   const swapIsDisabled =
     enableSwap && destinationChain && inputSwaploss ? false : true;
+
+  const wrongChain = (
+    <div className={styles.chainError}>choose correct chain</div>
+  );
   return (
     <div className={styles.swap}>
       {error.error && <p className={styles.error}>{error.msg}</p>}
@@ -227,7 +215,10 @@ const Swap = (props) => {
                 placeholder="Amount to swap"
               />
               <div className={styles.currency}>
-                {chainId && networkConfig[chainId]["currency"]}
+                {networkConfig[chainId] &&
+                  chainId &&
+                  networkConfig[chainId]["currency"]}
+                {!chainId || (!networkConfig[chainId] && wrongChain)}
               </div>
             </div>
             <button
@@ -253,13 +244,12 @@ const Swap = (props) => {
               disabled={swapIsDisabled}
             >
               {isLoading || isFetching ? (
-                <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                <div className={styles.loader}></div>
               ) : (
                 "Swap"
               )}
             </button>
           </div>
-          {/* {error && <p style={{ color: "red" }}>Specify between 0 and 100</p>} */}
         </form>
       </div>
     </div>
