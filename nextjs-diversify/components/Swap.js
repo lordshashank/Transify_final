@@ -28,6 +28,9 @@ const Swap = (props) => {
   }, [isWeb3Enabled]);
 
   useEffect(() => {
+    Moralis.onChainChanged((chainIdHex) => {
+      setChainId(parseInt(chainIdHex));
+    });
     Moralis.onAccountChanged((account) => {
       console.log(`Account changed to ${account}`);
       if (account == null) {
@@ -36,11 +39,6 @@ const Swap = (props) => {
         console.log("Null Account found");
       }
       setUserAccount(account);
-    });
-  }, []);
-  useEffect(() => {
-    Moralis.onChainChanged((chainIdHex) => {
-      setChainId(parseInt(chainIdHex));
     });
   }, []);
   const contractAddress =
@@ -63,7 +61,11 @@ const Swap = (props) => {
     }
   }, [props.data, chainId, destinationChain]);
 
-  const { runContractFunction: setterRatio } = useWeb3Contract({
+  const {
+    runContractFunction: setterRatio,
+    isLoading,
+    isFetching,
+  } = useWeb3Contract({
     abi: abi,
     contractAddress: contractAddress,
     functionName: "setterRatio",
@@ -73,11 +75,20 @@ const Swap = (props) => {
       ratioX1000000: (priceRatio * 1000000).toFixed(0),
     },
   });
-
+  // const { runContractFunction: setMaxRatiosX1000000 } = useWeb3Contract({
+  //   abi: abi,
+  //   contractAddress: contractAddress,
+  //   functionName: "setMaxRatiosX1000000",
+  //   params: {
+  //     chainType: 0,
+  //     chainId: 43113,
+  //     maxRatioX1000000: 100000,
+  //   },
+  // });
   const {
     runContractFunction: transferTokens,
-    isLoading,
-    isFetching,
+    isLoading: isLoadingTransferTokens,
+    isFetching: isFetchingTransferTokens,
   } = useWeb3Contract({
     abi: abi,
     contractAddress: contractAddress,
@@ -200,6 +211,17 @@ const Swap = (props) => {
             "Set Current Price"
           )}
         </button>
+        {/* <button
+          className={styles.button}
+          onClick={async () => {
+            setError({ error: false, msg: "" });
+            await Moralis.enableWeb3();
+            // setEnableSwap(true);
+            await setMaxRatiosX1000000();
+          }}
+        >
+          ("change max ratio")
+        </button> */}
         <form
           className={styles.form}
           onSubmit={(e) => {
@@ -243,7 +265,7 @@ const Swap = (props) => {
               }}
               disabled={swapIsDisabled}
             >
-              {isLoading || isFetching ? (
+              {isLoadingTransferTokens || isFetchingTransferTokens ? (
                 <div className={styles.loader}></div>
               ) : (
                 "Swap"

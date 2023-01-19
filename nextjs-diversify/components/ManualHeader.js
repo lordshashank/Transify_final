@@ -45,7 +45,7 @@ export default function ManualHeader(props) {
             <div
               className={`${classes.connectbutton} ${classes.connectedbutton}`}
             >
-              <span>
+              <span className={classes.span}>
                 Connected to {account.slice(0, 6)}...
                 {account.slice(account.length - 4)}
               </span>

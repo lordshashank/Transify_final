@@ -1,13 +1,12 @@
 .coinList {
   display: flex;
   flex-direction: column;
-  gap: 1em;
   flex: 0.7;
   position: relative;
   color: white;
   background-color: rgba(0, 0, 0, 0.25);
   width: 100%;
-  padding-left: 1em;
+  padding-left: 0.8em;
   border-radius: 10px;
   /* border: 2px solid white; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -49,6 +48,7 @@
 .icon {
   display: flex;
   gap: 0.3em;
+  align-items: center;
 }
 .row div:nth-child(2) {
   margin-right: 7em;
@@ -69,16 +69,31 @@
 
 .list {
   display: flex;
+  gap: 1em;
   justify-content: space-between;
   align-items: center;
 }
 
-@media screen and (max-width: 940px) {
-  .coinList::after {
-    left: 0;
-    top: 101%;
-    bottom: -10%;
-    width: 100%;
-    height: 2px;
+@media screen and (max-width: 740px) {
+  .coinList th,
+  .row td {
+    font-size: 1em;
+  }
+  .coinList {
+    padding: 0.2em 0.2em;
+  }
+}
+@media (width < 500px) {
+  .coinList th {
+    text-align: center;
+  }
+}
+@media screen and (max-width: 350px) {
+  .coinList th,
+  .row td {
+    font-size: 0.7em;
+  }
+  .icon {
+    gap: 0;
   }
 }

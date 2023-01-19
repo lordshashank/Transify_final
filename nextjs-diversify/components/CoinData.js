@@ -1,7 +1,5 @@
 import TableRow from "./TableRow";
 import styles from "../styles/CoinData.module.css";
-import useHttp from "./useHttp";
-import { useEffect, useState } from "react";
 
 const CoinData = (props) => {
   const tableRow = props.apiData.map((row) => (
@@ -17,10 +15,10 @@ const CoinData = (props) => {
   ));
   return (
     <div className={styles.coinList}>
-      <table>
+      <table className="styles.table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Name (testnets)</th>
             <th>Last Price</th>
             <th>24h Change</th>
             <th>Market Cap</th>

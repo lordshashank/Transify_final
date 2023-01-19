@@ -19,7 +19,7 @@ const TableRow = (props) => {
             {props.name}
           </div>
         </td>
-        <td>{props.price}</td>
+        <td>{props.price.toFixed(2)}</td>
         <td
           className={
             props.priceChange > 0 ? `${classes.profit}` : `${classes.loss}`
