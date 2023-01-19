@@ -8,23 +8,42 @@ import { ethers } from "ethers";
 import { networkConfig } from "../helper.config";
 
 const Swap = (props) => {
-  const [inputSwaploss, setInputSwapLoss] = useState();
-  const [chainId, setChainId] = useState("5");
-  const [userAccount, setUserAccount] = useState();
-  const [error, setError] = useState(false);
-  const [destinationChain, setDestinationChain] = useState("5");
   const {
     Moralis,
     isWeb3Enabled,
     chainId: chainIdHex,
     account,
+    deactivateWeb3,
     user,
   } = useMoralis();
+
+  const [inputSwaploss, setInputSwapLoss] = useState();
+  const [chainId, setChainId] = useState("5");
+  const [userAccount, setUserAccount] = useState();
+  // const [currentChainPrice, setCurrentChainPrice] = useState("0");
+  // const [destinationChainPrice, setDestinationChainPrice] = useState("0");
+  const [priceRatio, setPriceRatio] = useState();
+  const [error, setError] = useState(false);
+  const [destinationChain, setDestinationChain] = useState();
   useEffect(() => {
     setChainId(parseInt(chainIdHex));
     setUserAccount(account);
-  }, [isWeb3Enabled]);
 
+    // async () => {
+    //   setChainId(parseInt(chainIdHex));
+
+    // };
+  }, [isWeb3Enabled]);
+  console.log(isWeb3Enabled);
+  // if (isWeb3Enabled) {
+  // useEffect(() => {
+  //   const x = props.data.filter(
+  //     (e) => e.name == networkConfig[chainId]["name"]
+  //   )[0].market_data.current_price.usd;
+  // }, [isWeb3Enabled]);
+  // }
+  //
+  console.log(0);
   useEffect(() => {
     Moralis.onAccountChanged((account) => {
       console.log(`Account changed to ${account}`);
@@ -40,17 +59,48 @@ const Swap = (props) => {
     Moralis.onChainChanged((chainIdHex) => {
       setChainId(parseInt(chainIdHex));
     });
-  }, []);
+  }, [Moralis]);
   const contractAddress =
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
   const swapLoss = props.swapLoss;
-  const currentChainPrice = props.data.filter(
-    (e) => e.name == networkConfig[chainId]["name"]
-  )[0].market_data.current_price.usd;
-  const destinationChainPrice = props.data.filter(
-    (e) => e.name == networkConfig[destinationChain]["name"]
-  )[0].market_data.current_price.usd;
-  const priceRatio = currentChainPrice / destinationChainPrice;
+  console.log(chainId);
+  // if (chainId) {
+
+  // }
+  // setCurrentChainPrice(
+  //   props.data.filter((e) => e.name == networkConfig[chainId]["name"])[0]
+  //     .market_data.current_price.usd
+  // );
+  // setDestinationChainPrice(
+  //   props.data.filter(
+  //     (e) => e.name == networkConfig[destinationChain]["name"]
+  //   )[0].market_data.current_price.usd
+  // );
+  // setPriceRatio(currentChainPrice / destinationChainPrice);
+  // const currentChainPrice = props.data.filter(
+  //   (e) => e.name == networkConfig[chainId]["name"]
+  // )[0].market_data.current_price.usd;
+  // const destinationChainPrice = props.data.filter(
+  //   (e) => e.name == networkConfig[destinationChain]["name"]
+  // )[0].market_data.current_price.usd;
+  // priceRatio = currentChainPrice / destinationChainPrice;
+  useEffect(() => {
+    if (props.data != [] && chainId && destinationChain) {
+      const currentChainData = props.data.filter(
+        (e) => e.name == networkConfig[chainId]["name"]
+      );
+      const destinationChainData = props.data.filter(
+        (e) => e.name == networkConfig[destinationChain]["name"]
+      );
+      if (currentChainData != [] && destinationChainData != []) {
+        const currentChainPrice =
+          currentChainData[0].market_data.current_price.usd;
+        const destinationChainPrice =
+          destinationChainData[0].market_data.current_price.usd;
+        setPriceRatio(currentChainPrice / destinationChainPrice);
+      }
+    }
+  }, [props.data, chainId]);
   const { runContractFunction: setterRatio } = useWeb3Contract({
     abi: abi,
     contractAddress: contractAddress,
@@ -61,7 +111,7 @@ const Swap = (props) => {
       ratioX1000000: (priceRatio * 1000000).toFixed(0),
     },
   });
-  console.log((priceRatio * 1000000).toFixed(0));
+  // console.log((priceRatio * 1000000).toFixed(0));
   // console.log(
   //   props.data.filter((e) => e.name == networkConfig[chainId]["name"])
   // );
@@ -191,7 +241,7 @@ const Swap = (props) => {
               disabled={isLoading || isFetching}
             >
               {isLoading || isFetching ? (
-                <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                <div className="animate-spin spinner-border h-80 w-80 border-b-2 rounded-full"></div>
               ) : (
                 "Swap"
               )}
