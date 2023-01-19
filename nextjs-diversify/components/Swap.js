@@ -1,13 +1,17 @@
 import classes from "../styles/CoinData.module.css";
+import styles from "../styles/Swap.module.css";
 import { contractAddresses, abi } from "../constants";
 // dont export from moralis when using react
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import { useEffect, useState, useRef } from "react";
-import { useNotification } from "@web3uikit/core";
-import { ethers } from "ethers";
-import { networkConfig } from "../helper.config";
+import { useEffect, useState } from "react";
+import { networkConfig } from "../helper.config.js";
 
 const Swap = (props) => {
+  const [inputSwaploss, setInputSwapLoss] = useState();
+  const [chainId, setChainId] = useState("5");
+  const [userAccount, setUserAccount] = useState();
+  const [error, setError] = useState(false);
+  const [destinationChain, setDestinationChain] = useState("5");
   const {
     Moralis,
     isWeb3Enabled,
@@ -15,6 +19,7 @@ const Swap = (props) => {
     account,
     deactivateWeb3,
     user,
+    deactivateWeb3,
   } = useMoralis();
 
   const [inputSwaploss, setInputSwapLoss] = useState();
@@ -63,44 +68,13 @@ const Swap = (props) => {
   const contractAddress =
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
   const swapLoss = props.swapLoss;
-  console.log(chainId);
-  // if (chainId) {
-
-  // }
-  // setCurrentChainPrice(
-  //   props.data.filter((e) => e.name == networkConfig[chainId]["name"])[0]
-  //     .market_data.current_price.usd
-  // );
-  // setDestinationChainPrice(
-  //   props.data.filter(
-  //     (e) => e.name == networkConfig[destinationChain]["name"]
-  //   )[0].market_data.current_price.usd
-  // );
-  // setPriceRatio(currentChainPrice / destinationChainPrice);
-  // const currentChainPrice = props.data.filter(
-  //   (e) => e.name == networkConfig[chainId]["name"]
-  // )[0].market_data.current_price.usd;
-  // const destinationChainPrice = props.data.filter(
-  //   (e) => e.name == networkConfig[destinationChain]["name"]
-  // )[0].market_data.current_price.usd;
-  // priceRatio = currentChainPrice / destinationChainPrice;
-  useEffect(() => {
-    if (props.data != [] && chainId && destinationChain) {
-      const currentChainData = props.data.filter(
-        (e) => e.name == networkConfig[chainId]["name"]
-      );
-      const destinationChainData = props.data.filter(
-        (e) => e.name == networkConfig[destinationChain]["name"]
-      );
-      if (currentChainData != [] && destinationChainData != []) {
-        const currentChainPrice =
-          currentChainData[0].market_data.current_price.usd;
-        const destinationChainPrice =
-          destinationChainData[0].market_data.current_price.usd;
-        setPriceRatio(currentChainPrice / destinationChainPrice);
-      }
-    }
-  }, [props.data, chainId]);
+  const currentChainPrice = props.data.filter(
+    (e) => e.name == networkConfig[chainId]["name"]
+  )[0].market_data.current_price.usd;
+  const destinationChainPrice = props.data.filter(
+    (e) => e.name == networkConfig[destinationChain]["name"]
+  )[0].market_data.current_price.usd;
+  const priceRatio = currentChainPrice / destinationChainPrice;
   const { runContractFunction: setterRatio } = useWeb3Contract({
     abi: abi,
     contractAddress: contractAddress,
@@ -111,7 +85,7 @@ const Swap = (props) => {
       ratioX1000000: (priceRatio * 1000000).toFixed(0),
     },
   });
-  // console.log((priceRatio * 1000000).toFixed(0));
+  console.log((priceRatio * 1000000).toFixed(0));
   // console.log(
   //   props.data.filter((e) => e.name == networkConfig[chainId]["name"])
   // );
@@ -144,37 +118,50 @@ const Swap = (props) => {
     }
   };
 
-  let max = [];
-  if (props.data) {
-    const priceData = props.data.map((data) => {
-      return data.market_data.price_change_percentage_24h;
+  useEffect(() => {
+    const cryptoData = props.data;
+    let maxChange = props.data[0];
+
+    cryptoData.forEach((crypto) => {
+      if (
+        crypto.market_data.price_change_percentage_24h >
+        maxChange.market_data.price_change_percentage_24h
+      ) {
+        maxChange = crypto;
+      }
     });
-    const maxPrice = Math.max(priceData[0], priceData[1], priceData[2]);
-    max = props.data.filter(
-      (data) => data.market_data.price_change_percentage_24h == maxPrice
-    );
-  }
+    setMaximumChange(maxChange);
+  }, [props.data]);
 
   const inputChangeHandler = (e) => {
     setInputSwapLoss(e.target.value);
+    if (e.target.value < 0) {
+      setError({ error: true, msg: "Please select amount greater than 0" });
+    }
   };
-
+  const setCurrentIsDisabled = destinationChain ? false : true;
+  const swapIsDisabled =
+    enableSwap && destinationChain && inputSwaploss ? false : true;
   return (
-    <div className={classes.swap}>
+    <div className={styles.swap}>
+      {error.error && <p className={styles.error}>{error.msg}</p>}
       <h1>Most Profitable</h1>
-      <div className={classes.inputAndBtn}>
-        {max != [] &&
-          max.map((max) => (
-            <input
-              type="text"
-              disabled
-              value={`${max.name} ${
-                max.market_data.price_change_percentage_24h > 0 ? "up" : "down"
-              } by ${max.market_data.price_change_percentage_24h.toFixed(2)} %`}
-            ></input>
-          ))}
+      <div className={styles.inputAndBtn}>
+        {maximumChange && (
+          <input
+            type="text"
+            disabled
+            value={`${maximumChange.name} ${
+              maximumChange.market_data.price_change_percentage_24h > 0
+                ? "up"
+                : "down"
+            } by ${maximumChange.market_data.price_change_percentage_24h.toFixed(
+              2
+            )} %`}
+          ></input>
+        )}
         <select
-          className={classes.select}
+          className={styles.select}
           placeholder="Choose currency to swap"
           onChange={(choice) => {
             setDestinationChain(choice.target.value);
@@ -185,63 +172,88 @@ const Swap = (props) => {
           </option>
           {Object.values(networkConfig).map((element) => {
             if (chainId != element.id) {
-              return <option value={element.id}>{element.currency}</option>;
+              return (
+                <option key={element.id} value={element.id}>
+                  {element.currency}
+                </option>
+              );
             }
           })}
         </select>
         <button
-          className={classes.button}
+          className={`${styles.button} ${
+            setCurrentIsDisabled ? styles.disabledButton : ""
+          }`}
           onClick={async () => {
+            setError({ error: false, msg: "" });
             await Moralis.enableWeb3();
+            setEnableSwap(true);
             await setterRatio({
               // onComplete:
               // onError:
               onSuccess: handleSuccess,
-              onError: (error) => console.log(error),
+              onError: (err) => {
+                console.log(err);
+                setError({
+                  error: true,
+                  msg: "Please set up current price correctly",
+                });
+                if (err) {
+                  setEnableSwap(false);
+                }
+              },
             });
           }}
-          disabled={isLoading || isFetching}
+          disabled={setCurrentIsDisabled}
         >
           {isLoading || isFetching ? (
-            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+            <div className={styles.loader}></div>
           ) : (
             "Set Current Price"
           )}
         </button>
         <form
-          className={classes.form}
+          className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
-          <div className={classes.inputFields}>
-            <div className={classes.inputAddCurrency}>
+          <div className={styles.inputFields}>
+            <div className={styles.inputAddCurrency}>
               <input
                 onChange={inputChangeHandler}
                 value={inputSwaploss}
                 type="number"
                 placeholder="Amount to swap"
               />
-              <div className={classes.currency}>
+              <div className={styles.currency}>
                 {chainId && networkConfig[chainId]["currency"]}
               </div>
             </div>
             <button
-              className={classes.button}
+              className={`${styles.button} ${
+                swapIsDisabled ? styles.disabledButton : ""
+              }`}
               onClick={async () => {
-                if (!inputSwaploss) return;
+                setError({ error: false, msg: "" });
                 await Moralis.enableWeb3();
                 await transferTokens({
                   // onComplete:
                   // onError:
                   onSuccess: handleSuccess,
-                  onError: (error) => console.log(error),
+                  onError: (error) => {
+                    console.log(error);
+                    setError({
+                      error: true,
+                      msg: "An Error occured while swaping",
+                    });
+                  },
                 });
               }}
-              disabled={isLoading || isFetching}
+              disabled={swapIsDisabled}
             >
               {isLoading || isFetching ? (
-                <div className="animate-spin spinner-border h-80 w-80 border-b-2 rounded-full"></div>
+                <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
               ) : (
                 "Swap"
               )}

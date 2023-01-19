@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { useRef } from "react";
 import { stringify } from "postcss";
+import Image from "next/image";
+import logo from "../public/logo.jpg";
 
 // Top navbar
 export default function ManualHeader(props) {
@@ -54,12 +56,18 @@ export default function ManualHeader(props) {
   return (
     <nav className="p-5">
       <ul className={classes.list}>
-        <li className={classes.logo}>TRANSIFY</li>
+        <li className={classes.logo}>
+          <Image src={logo} className={classes.logo} />
+        </li>
         <li className={"flex flex-row"}>
           {account ? (
-            <div className="ml-auto py-2 px-4 text-white">
-              Connected to {account.slice(0, 6)}...
-              {account.slice(account.length - 4)}
+            <div
+              className={`${classes.connectbutton} ${classes.connectedbutton}`}
+            >
+              <span>
+                Connected to {account.slice(0, 6)}...
+                {account.slice(account.length - 4)}
+              </span>
             </div>
           ) : (
             <button
@@ -75,10 +83,27 @@ export default function ManualHeader(props) {
                 }
               }}
               disabled={isWeb3EnableLoading}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
+              className={classes.connectbutton}
             >
-              Connect Wallet
+              <span>Connect Wallet</span>
             </button>
+            // <button
+            //   onClick={async () => {
+            //     // await walletModal.connect()
+            //     const ret = await enableWeb3();
+            //     if (typeof ret !== "undefined") {
+            //       // depends on what button they picked
+            //       if (typeof window !== "undefined") {
+            //         window.localStorage.setItem("connected", "injected");
+            //         // window.localStorage.setItem("connected", "walletconnect")
+            //       }
+            //     }
+            //   }}
+            //   disabled={isWeb3EnableLoading}
+            //   className={classes.connectbutton}
+            // >
+            //   Connect Wallet
+            // </button>
           )}
         </li>
       </ul>

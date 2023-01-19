@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useHttp = () => {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,9 @@ const useHttp = () => {
     } catch (err) {
       setError(err);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   };
 
