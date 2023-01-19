@@ -2,9 +2,7 @@ import classes from "../styles/Footer.module.css";
 const Footer = () => {
   return (
     <div className={classes.footer}>
-      <h1>
-        Made With Love<span>♥️</span> using Router Protocol by Team HEISENBERG
-      </h1>
+      <h1>Make your crypto exchanges profitable</h1>
     </div>
   );
 };

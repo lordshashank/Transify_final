@@ -4,25 +4,7 @@ import useHttp from "./useHttp";
 import { useEffect, useState } from "react";
 
 const CoinData = (props) => {
-  const { response, error, loading } = useHttp();
-  const [requiredData, setRequiredData] = useState([]);
-  useEffect(() => {
-    if (response) {
-      const getData = response.filter((res) => {
-        return (
-          res.id == "ethereum" ||
-          res.id == "matic-network" ||
-          res.id == "avalanche-2" ||
-          res.id == "binancecoin"
-        );
-      });
-
-      setRequiredData(getData);
-    }
-  }, [response]);
-
-  props.onAddApiData(requiredData);
-  const tableRow = requiredData.map((row) => (
+  const tableRow = props.apiData.map((row) => (
     <TableRow
       id={row.id}
       name={row.name}
