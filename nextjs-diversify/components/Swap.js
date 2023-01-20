@@ -93,11 +93,11 @@ const Swap = (props) => {
     abi: abi,
     contractAddress: contractAddress,
     functionName: "transferTokens",
-    msgValue: inputSwaploss,
+    msgValue: inputSwaploss * 1000000000000000000,
     params: {
       chainType: 0,
       chainId: destinationChain,
-      amount: "100000000000000",
+      amount: inputSwaploss * 1000000000000000000,
       receipientAddress: userAccount,
       destGasPrice: "30000000000",
     },
