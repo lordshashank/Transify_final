@@ -52,10 +52,8 @@ const Swap = (props) => {
         (e) => e.name == networkConfig[destinationChain]["name"]
       );
       if (currentChainData != [] && destinationChainData != []) {
-        const currentChainPrice =
-          currentChainData[0].market_data.current_price.usd;
-        const destinationChainPrice =
-          destinationChainData[0].market_data.current_price.usd;
+        const currentChainPrice = currentChainData[0].current_price;
+        const destinationChainPrice = destinationChainData[0].current_price;
         setPriceRatio(currentChainPrice / destinationChainPrice);
       }
     }
@@ -119,8 +117,8 @@ const Swap = (props) => {
 
     cryptoData.forEach((crypto) => {
       if (
-        crypto.market_data.price_change_percentage_24h >
-        maxChange.market_data.price_change_percentage_24h
+        crypto.price_change_percentage_24h >
+        maxChange.price_change_percentage_24h
       ) {
         maxChange = crypto;
       }
@@ -151,12 +149,8 @@ const Swap = (props) => {
             type="text"
             disabled
             value={`${maximumChange.name} ${
-              maximumChange.market_data.price_change_percentage_24h > 0
-                ? "up"
-                : "down"
-            } by ${maximumChange.market_data.price_change_percentage_24h.toFixed(
-              2
-            )} %`}
+              maximumChange.price_change_percentage_24h > 0 ? "up" : "down"
+            } by ${maximumChange.price_change_percentage_24h.toFixed(2)} %`}
           ></input>
         )}
         <select

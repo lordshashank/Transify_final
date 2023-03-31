@@ -7,10 +7,11 @@ const CoinData = (props) => {
       id={row.id}
       name={row.name}
       number="4"
-      image={row.image.small}
-      priceChange={row.market_data.price_change_percentage_24h}
-      price={row.market_data.current_price.usd}
-      marketCap={row.market_data.market_cap.usd}
+      image={row.image}
+      priceChange={row.price_change_percentage_24h}
+      // priceChange="66"
+      price={row.current_price}
+      marketCap={row.market_cap}
     />
   ));
   return (
