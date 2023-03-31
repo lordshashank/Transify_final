@@ -11,8 +11,8 @@ const TableRow = (props) => {
             <Image
               loader={() => props.image}
               src={props.image}
-              width={20}
-              height={2}
+              width={50}
+              height={50}
               alt="logo"
               className={classes.crypto_icon}
             />
