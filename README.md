@@ -36,9 +36,9 @@
   <p align="center">
     project_description
     <br />
+     ·
+    <a href="https://transify-final.vercel.app/"> Try yourself »</strong></a>
     <a href="https://github.com/surfer05/Transify"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
     <a href="https://youtu.be/2i8QUZpfKK4">View Demo</a>
     ·
 
@@ -115,15 +115,15 @@ This is an example of how to list things you need to use the software and how to
    ```
 3. Have a hands-on experience on our project.
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
+
 Cross-chain transfers have been an issue for quite a time. There are many cross chain solutions available but some take too much steps or too much gas.
 Our project helps us to swap currencies through just a click on the `swap` button. Its really cost effective and gas effective credits to cross chain transfer protocol of Router Protocol.
- It helps you to prevent your loss in the crypto market by instantly alerting you about the price changes as well. you can check the tokens that are running high that time in different chains and transfer any amount of your tokens to that token in just one click.
+It helps you to prevent your loss in the crypto market by instantly alerting you about the price changes as well. you can check the tokens that are running high that time in different chains and transfer any amount of your tokens to that token in just one click.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
